@@ -7,7 +7,7 @@ const trackScoreUL = document.getElementById("last_results")
 const trackRecordUL = document.getElementById("records")
 let root = document.documentElement
 let width = Number(getComputedStyle(root).getPropertyValue("--col-number"))
-let bombsAmount = 1
+let bombsAmount = 10
 let gameOver = false
 let score = 0
 let record = {
@@ -52,11 +52,11 @@ lossScreen.style.display = "none"
 levelHTML.addEventListener("change", () => {
     button.addEventListener("click", () => {
         if (levelHTML.value == "medium") {
-            bombsAmount = 1
+            bombsAmount = 18
         } else if (levelHTML.value == "easy") {
-            bombsAmount = 1
+            bombsAmount = 10
         } else if (levelHTML.value == "hard") {
-            bombsAmount = 1
+            bombsAmount = 25
         }
         difficulty = (levelHTML.value).toUpperCase()
         winScreen.style.display = "none"
@@ -115,11 +115,11 @@ let interval
 function createGrid() {
     gameReset()
     if (levelHTML.value == "medium") {
-        bombsAmount = 1
+        bombsAmount = 18
     } else if (levelHTML.value == "easy") {
-        bombsAmount = 1
+        bombsAmount = 10
     } else if (levelHTML.value == "hard") {
-        bombsAmount = 1
+        bombsAmount = 25
     }
     difficulty = (levelHTML.value).toUpperCase()
     interval = setInterval(timerFunction, 1000)
@@ -287,6 +287,7 @@ function createGrid() {
 
             if (adjacentBombs > 0) {
                 boxspan.innerText = adjacentBombs
+                boxspan.classList.add(`x${adjacentBombs}`)
             } else {
                 boxspan.innerText = ""
             }
