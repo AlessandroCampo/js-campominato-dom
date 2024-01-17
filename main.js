@@ -3,9 +3,11 @@ const button = document.querySelector("button")
 const levelHTML = document.getElementById("level")
 const scoreCounterHTML = document.getElementById("score")
 const timerHTML = document.getElementById("timer")
+const trackScoreUL = document.getElementById("last_results")
+const trackRecordUL = document.getElementById("records")
 let root = document.documentElement
 let width = Number(getComputedStyle(root).getPropertyValue("--col-number"))
-let bombsAmount = 5
+let bombsAmount = 1
 let gameOver = false
 let score = 0
 
@@ -13,6 +15,16 @@ let randomNumbers = []
 
 const lossScreen = document.getElementById("loss")
 const winScreen = document.getElementById("win")
+
+class ScoreMemory {
+    constructor(time, points) {
+        this.time = time
+        this.points = points
+    }
+}
+
+let scoresArray = []
+
 
 //TODO - GIVE POSSIBILITY TO RESIZE THE GRID CHANGING THE NUMBERS INSIDE THE FOR LOOPS
 
@@ -62,6 +74,10 @@ let boxes = []
 
 // this function resets the game to the window load state whenever a new grid is generated
 function gameReset() {
+    clearInterval(interval)
+    seconds = 0
+    minutes = 0
+    timerHTML.innerText = "0:00"
     scoreCounterHTML.innerText = 0
     score = 0
     boxes = []
@@ -146,6 +162,37 @@ function createGrid() {
                     if (winCheck) {
                         winScreen.style.display = "flex"
                         clearInterval(interval)
+                        let lastScore = document.createElement("li")
+                        if (seconds > 10) {
+                            lastScore.innerHTML = ` <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span>`
+                        } else {
+                            lastScore.innerHTML = `<i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> <span class="victory-text"> VICTORY </span>`
+                        }
+                        let last10resutls = trackScoreUL.querySelectorAll("li")
+                        if (last10resutls.length > 9) {
+                            last10resutls[0].remove()
+                        }
+                        trackScoreUL.append(lastScore)
+                        // let scoreMemo = new ScoreMemory({
+                        //     points: score,
+                        //     time: (seconds + (minutes * 60))
+                        // })
+                        // if (scoresArray.length > 3 && scoresArray[2].time > scoreMemo.time) {
+                        //     scoresArray.splice(2, 1)
+                        // }
+                        // scoresArray.push(scoreMemo)
+                        console.log(scoresArray)
+                        // trackRecordUL.innerHTML = ""
+                        // scoresArray.forEach((score) => {
+
+                        //     let bestScore = document.createElement("li")
+                        //     if (seconds > 10) {
+                        //         bestScore.innerHTML = `  <i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span>`
+                        //     } else {
+                        //         bestScore.innerHTML = `<i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span>`
+                        //     }
+                        //     trackRecordUL.append(bestScore)
+                        // })
                         let divflags = document.querySelectorAll("div.flag")
                         divflags.forEach((div) => {
                             let bombImg = new Image()
@@ -246,6 +293,18 @@ function checkBox(box) {
         box.style.backgroundColor = "red"
         document.querySelector("main").style.backgroundColor = "brown"
         clearInterval(interval)
+        let lastScore = document.createElement("li")
+        if (seconds > 10) {
+            lastScore.innerHTML = ` <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span>`
+        } else {
+            lastScore.innerHTML = `<i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> <span class="defeat-text"> DEFEAT </span>`
+        }
+        trackScoreUL.append(lastScore)
+        let last10resutls = trackScoreUL.querySelectorAll("li")
+        if (last10resutls.length > 9) {
+            last10resutls[0].remove()
+        }
+
         gameOver = true
 
         document.querySelectorAll(".active").forEach((cell) => {

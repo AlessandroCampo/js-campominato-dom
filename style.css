@@ -10,6 +10,18 @@
     --col-number: 10
 }
 
+#logo {
+    display: flex;
+    width: calc(100% / 3);
+    align-items: center;
+    gap: 1em;
+    font-size: 30px;
+}
+
+#logo img {
+    max-width: 20%;
+}
+
 body {
     background-color: azure;
 }
@@ -27,6 +39,11 @@ main {
     position: absolute;
     left: 5%;
     top: 20%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15em;
+    padding-block: 3em;
 }
 
 ul {
@@ -78,7 +95,7 @@ header {
     display: flex;
     justify-content: space-between;
     padding-inline: 2em;
-    padding-block: 3em;
+    padding-bottom: 3em;
 }
 
 header #logo {
@@ -196,4 +213,23 @@ div.box img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.victory-text {
+    font-size: 16px;
+    color: green;
+    margin-left: 2em;
+}
+
+.defeat-text {
+    font-size: 16px;
+    color: red;
+    margin-left: 1em;
+}
+
+#last_results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    margin-top: 1.5em;
 }
