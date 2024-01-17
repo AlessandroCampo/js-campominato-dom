@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h2>CAMPO MINATO</h2>
+        <div class="select">
+            <label for="level"> Scegli livello difficoltà </label>
+            <select name="" id="level">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard </option>
+            </select>
+            <button>PLAY</button>
+        </div>
+
+    </header>
+    <main>
+
+        <div id="grid" class="prevent-select">
+            <div id="loss">
+                <img src="assets/loss.gif" alt="">
+                <h2>HAI PERSO!</h2>
+            </div>
+            <div id="win">
+                <img src="assets/win.gif" alt="">
+                <h2>HAI VINTO!</h2>
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <script src="main.js"></script>
+</body>
+
+</html>
