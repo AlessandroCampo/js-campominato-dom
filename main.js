@@ -82,7 +82,7 @@ function gameReset() {
     score = 0
     boxes = []
     gameOver = false
-    document.querySelector("main").style.backgroundColor = "aquamarine"
+    document.querySelector("main").style.backgroundColor = "rgb(173, 216, 230)"
     winScreen.style.display = "none"
     lossScreen.style.display = "none"
     let boxesToDelete = document.querySelectorAll(".box")
@@ -317,7 +317,7 @@ function checkBox(box) {
     if (box.classList.contains("bomb")) {
 
         box.style.backgroundColor = "red"
-        document.querySelector("main").style.backgroundColor = "brown"
+
         clearInterval(interval)
         let lastScore = document.createElement("li")
         if (seconds > 10) {
