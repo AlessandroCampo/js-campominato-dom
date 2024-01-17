@@ -1,10 +1,13 @@
 const gridHTML = document.getElementById("grid")
 const button = document.querySelector("button")
 const levelHTML = document.getElementById("level")
+const scoreCounterHTML = document.getElementById("score")
+const timerHTML = document.getElementById("timer")
 let root = document.documentElement
 let width = Number(getComputedStyle(root).getPropertyValue("--col-number"))
 let bombsAmount = 5
 let gameOver = false
+let score = 0
 
 let randomNumbers = []
 
@@ -38,11 +41,11 @@ lossScreen.style.display = "none"
 levelHTML.addEventListener("change", () => {
     button.addEventListener("click", () => {
         if (levelHTML.value == "medium") {
-            bombsAmount = 10
-        } else if (levelHTML.value == "easy") {
-            bombsAmount = 5
-        } else if (levelHTML.value == "hard") {
             bombsAmount = 15
+        } else if (levelHTML.value == "easy") {
+            bombsAmount = 10
+        } else if (levelHTML.value == "hard") {
+            bombsAmount = 25
         }
         winScreen.style.display = "none"
         lossScreen.style.display = "none"
@@ -59,6 +62,8 @@ let boxes = []
 
 // this function resets the game to the window load state whenever a new grid is generated
 function gameReset() {
+    scoreCounterHTML.innerText = 0
+    score = 0
     boxes = []
     gameOver = false
     document.querySelector("main").style.backgroundColor = "aquamarine"
@@ -71,15 +76,35 @@ function gameReset() {
     })
 }
 
-// generates a new grid based on game width, populating 2 arrays with the proper empty-cells to bombs ratio and then shuffling it, then assigning id's, classes and event listeners to each box
+let minutes = 0
+let seconds = 0
+// increments timer every second 
+function timerFunction() {
+    seconds++
+    console.log(seconds)
+    if (seconds == 60) {
+        seconds = 0
+        minutes++
+    }
+    // timerHTML.innertext = `${minutes}:${seconds.toFixed(2)}`
+    if (seconds < 10) {
+        timerHTML.innerText = `${minutes}:${String(seconds).padStart(2, '0')}`
+    } else {
+        timerHTML.innerText = `${minutes}:${seconds}`
+    }
 
+}
+
+// generates a new grid based on game width, populating 2 arrays with the proper empty-cells to bombs ratio and then shuffling it, then assigning id's, classes and event listeners to each box
+let interval
 function createGrid() {
     gameReset()
+    interval = setInterval(timerFunction, 1000)
     const bombArray = Array(bombsAmount).fill("bomb")
     const emptyArray = Array(width * width - bombsAmount).fill("empty")
     const boardArraySorted = bombArray.concat(emptyArray)
     const randomizedBoard = boardArraySorted.sort(() => Math.random() - 0.5)
-
+    gridHTML.style.display = "flex"
 
 
     for (let i = 0; i < width ** 2; i++) {
@@ -94,6 +119,8 @@ function createGrid() {
         box.appendChild(boxspan)
         box.addEventListener("click", function (e) {
             console.log(box)
+            if (!box.classList.contains("bomb")) score++
+            scoreCounterHTML.innerText = score
             checkBox(box)
         })
         box.addEventListener("contextmenu", () => {
@@ -118,6 +145,7 @@ function createGrid() {
 
                     if (winCheck) {
                         winScreen.style.display = "flex"
+                        clearInterval(interval)
                         let divflags = document.querySelectorAll("div.flag")
                         divflags.forEach((div) => {
                             let bombImg = new Image()
@@ -149,12 +177,9 @@ function createGrid() {
 
         boxes.push(box)
 
-
-
-
     }
 
-    // this for loop (Who costed my mental sanity), checks all of the boxes adjacent to the one whose getting looped (accounting for grid edges), and stores the amount of bombs found in a variable, whose at the end assigned to each span's innertext
+    // this for loop (Which costed my mental sanity), checks all of the boxes adjacent to the one whose getting looped (accounting for grid edges), and stores the amount of bombs found in a variable, whose at the end assigned to each span's innertext
     for (let i = 0; i < boxes.length; i++) {
 
         const isOnLeftEdge = (i % width == 0)
@@ -217,10 +242,12 @@ function checkBox(box) {
 
 
     if (box.classList.contains("bomb")) {
-        console.log(box.classList)
+
         box.style.backgroundColor = "red"
         document.querySelector("main").style.backgroundColor = "brown"
+        clearInterval(interval)
         gameOver = true
+
         document.querySelectorAll(".active").forEach((cell) => {
             cell.classList.remove("active")
         })

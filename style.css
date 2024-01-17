@@ -3,10 +3,15 @@
     margin: 0;
     padding: 0;
     cursor: url(./assets/spacrecraft-custom-cursor.png), auto;
+    font-family: sans-serif;
 }
 
 :root {
     --col-number: 10
+}
+
+body {
+    background-color: azure;
 }
 
 main {
@@ -15,15 +20,27 @@ main {
     align-items: center;
     justify-content: center;
     background-color: aquamarine;
-    padding-block: 3em;
+    /* padding-block: 3em; */
 }
 
+#trackscore {
+    position: absolute;
+    left: 5%;
+    top: 20%;
+}
+
+ul {
+    list-style: none;
+}
+
+
+
 #grid {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     width: 35%;
     position: relative;
-
+    margin-block: 3em;
 }
 
 
@@ -37,6 +54,22 @@ main {
     cursor: url(./assets/spacecraf-custom-pointer.png), auto;
 }
 
+
+
+#counter {
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    justify-content: center;
+    gap: 3em;
+    width: calc(100% / 3);
+}
+
+
+.fa-solid {
+    margin-inline: 10px;
+}
+
 .active {
     background-color: cornflowerblue;
 }
@@ -48,16 +81,26 @@ header {
     padding-block: 3em;
 }
 
+header #logo {
+    width: calc(100% / 3);
+}
+
+
+
+
+
 select {
     font-size: 22px;
     padding-inline: 2em;
     padding-block: 0.5em;
     text-align: center;
     cursor: url(./assets/spacecraf-custom-pointer.png), auto;
+
 }
 
 .select label {
-    font-size: 18px;
+    font-size: 23px;
+    font-weight: bold;
 }
 
 button {
@@ -71,6 +114,8 @@ button {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: calc(100% / 3);
+    justify-content: flex-end;
 }
 
 .prevent-select {

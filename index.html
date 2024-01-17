@@ -5,13 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 
 <body>
     <header>
-        <h2>CAMPO MINATO</h2>
+        <div id="logo">
+            <h2>CAMPO MINATO</h2>
+        </div>
+
+        <div id="counter">
+            <div>
+                <i class="fa-solid fa-star"></i><span id="score">0</span>
+            </div>
+            <div>
+                <i class="fa-solid fa-stopwatch"></i> <span id="timer">0:00 </span>
+            </div>
+        </div>
+
         <div class="select">
             <label for="level"> Scegli livello difficoltà </label>
             <select name="" id="level">
@@ -24,6 +39,17 @@
 
     </header>
     <main>
+        <div id="trackscore">
+            <h2>LE TUE ULTIME 10 PARTITE</h2>
+            <ul>
+                <li>5:00 50</li>
+                <li>5:00 50</li>
+                <li>5:00 50</li>
+                <li>5:00 50</li>
+                <li>5:00 50</li>
+                <li>5:00 50</li>
+            </ul>
+        </div>
 
         <div id="grid" class="prevent-select">
             <div id="loss">
