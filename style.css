@@ -119,8 +119,9 @@ header #logo {
     width: calc(100% / 3);
 }
 
-
-
+p {
+    text-align: center;
+}
 
 
 select {
