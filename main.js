@@ -10,7 +10,11 @@ let width = Number(getComputedStyle(root).getPropertyValue("--col-number"))
 let bombsAmount = 1
 let gameOver = false
 let score = 0
-let record = 10000
+let record = {
+    time: 100,
+    difficulty: 0
+}
+let difficulty = "EASY"
 
 let randomNumbers = []
 
@@ -48,12 +52,13 @@ lossScreen.style.display = "none"
 levelHTML.addEventListener("change", () => {
     button.addEventListener("click", () => {
         if (levelHTML.value == "medium") {
-            bombsAmount = 15
+            bombsAmount = 1
         } else if (levelHTML.value == "easy") {
-            bombsAmount = 10
+            bombsAmount = 1
         } else if (levelHTML.value == "hard") {
-            bombsAmount = 25
+            bombsAmount = 1
         }
+        difficulty = (levelHTML.value).toUpperCase()
         winScreen.style.display = "none"
         lossScreen.style.display = "none"
         createGrid()
@@ -109,6 +114,14 @@ function timerFunction() {
 let interval
 function createGrid() {
     gameReset()
+    if (levelHTML.value == "medium") {
+        bombsAmount = 1
+    } else if (levelHTML.value == "easy") {
+        bombsAmount = 1
+    } else if (levelHTML.value == "hard") {
+        bombsAmount = 1
+    }
+    difficulty = (levelHTML.value).toUpperCase()
     interval = setInterval(timerFunction, 1000)
     const bombArray = Array(bombsAmount).fill("bomb")
     const emptyArray = Array(width * width - bombsAmount).fill("empty")
@@ -158,9 +171,9 @@ function createGrid() {
                         clearInterval(interval)
                         let lastScore = document.createElement("li")
                         if (seconds > 10) {
-                            lastScore.innerHTML = ` <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span> <span class="victory-text"> VICTORY </span>`
+                            lastScore.innerHTML = ` <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span> <span>${difficulty} </span> <span class="victory-text"> VICTORY </span>`
                         } else {
-                            lastScore.innerHTML = `<i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> <span class="victory-text"> VICTORY </span>`
+                            lastScore.innerHTML = `<i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> <span>${difficulty} </span> <span class="victory-text"> VICTORY </span>`
                         }
                         let last10resutls = trackScoreUL.querySelectorAll("li")
                         if (last10resutls.length > 10) {
@@ -168,18 +181,38 @@ function createGrid() {
                         }
                         trackScoreUL.append(lastScore)
                         let currentTime = seconds + (minutes * 60)
+                        let difficultyNumber = 0
+                        if (difficulty == "EASY") {
+                            difficultyNumber = 1
+                        } else if (difficulty == "MEDIUM") {
+                            difficultyNumber = 2
+                        } else if (difficulty == "HARD") {
+                            difficultyNumber = 3
+                        }
                         console.log(record)
                         console.log(currentTime)
-                        if (currentTime < record) {
+                        if (difficultyNumber > record.difficulty) {
                             trackRecordUL.innerHTML = ""
-                            record = currentTime
+                            record.time = currentTime
+                            record.difficulty = difficultyNumber
                             let bestScore = document.createElement("li")
                             if (seconds > 10) {
-                                bestScore.innerHTML = ` <i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span>`
+                                bestScore.innerHTML = ` <i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span> ${difficulty}`
                             } else {
-                                bestScore.innerHTML = `<i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> `
+                                bestScore.innerHTML = `<i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> ${difficulty} `
                             }
 
+                            trackRecordUL.appendChild(bestScore)
+                        } else if (difficultyNumber == record.difficulty && currentTime < record.time) {
+                            trackRecordUL.innerHTML = ""
+                            record.time = currentTime
+                            record.difficulty = difficultyNumber
+                            let bestScore = document.createElement("li")
+                            if (seconds > 10) {
+                                bestScore.innerHTML = ` <i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span> ${difficulty}`
+                            } else {
+                                bestScore.innerHTML = `<i class="fa-solid fa-trophy"></i> <i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> ${difficulty} `
+                            }
                             trackRecordUL.appendChild(bestScore)
                         }
 
@@ -287,9 +320,9 @@ function checkBox(box) {
         clearInterval(interval)
         let lastScore = document.createElement("li")
         if (seconds > 10) {
-            lastScore.innerHTML = ` <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span>`
+            lastScore.innerHTML = ` <i class="fa-solid fa-stopwatch"></i> <span>${minutes}:${seconds}</span> <i class="fa-solid fa-star"></i><span>${score}</span> <span>${difficulty} </span> <span class="defeat-text"> DEFEAT </span>`
         } else {
-            lastScore.innerHTML = `<i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> <span class="defeat-text"> DEFEAT </span>`
+            lastScore.innerHTML = `<i class="fa-solid fa-stopwatch"></i> <span> ${minutes}:${String(seconds).padStart(2, '0')} </span> <i class="fa-solid fa-star"></i><span>${score}</span> <span>${difficulty} </span> <span class="defeat-text"> DEFEAT </span>`
         }
         trackScoreUL.append(lastScore)
         let last10resutls = trackScoreUL.querySelectorAll("li")
