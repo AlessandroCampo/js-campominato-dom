@@ -96,18 +96,16 @@ let seconds = 0
 // increments timer every second 
 function timerFunction() {
     seconds++
-    console.log(seconds)
     if (seconds == 60) {
         seconds = 0
         minutes++
     }
-    // timerHTML.innertext = `${minutes}:${seconds.toFixed(2)}`
+
     if (seconds < 10) {
         timerHTML.innerText = `${minutes}:${String(seconds).padStart(2, '0')}`
     } else {
         timerHTML.innerText = `${minutes}:${seconds}`
     }
-
 }
 
 // generates a new grid based on game width, populating 2 arrays with the proper empty-cells to bombs ratio and then shuffling it, then assigning id's, classes and event listeners to each box
@@ -142,7 +140,7 @@ function createGrid() {
         box.appendChild(boxspan)
         box.addEventListener("click", function (e) {
             console.log(box)
-            if (!box.classList.contains("bomb")) score++
+            if (!box.classList.contains("bomb") && !box.classList.contains("active")) score++
             scoreCounterHTML.innerText = score
             checkBox(box)
         })
